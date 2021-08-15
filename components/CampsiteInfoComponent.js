@@ -50,6 +50,8 @@ function RenderCampsite(props) {
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
 
+    const recognizeComment = ({dx}) => (dx > 200) ? true : false;
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
@@ -76,6 +78,24 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
+            } else if (recognizeComment(gestureState)) {
+                props.onShowModal()
+                // Alert.alert(
+                //     'Write Comment',
+                //     'Write a comment for:\n' + campsite.name + '?',
+                //     [
+                //         {
+                //             text: 'Cancel',
+                //             style: 'cancel',
+                //             onPress: () => console.log('Cancel Pressed')
+                //         },
+                //         {
+                //             text: 'OK',
+                //             onPress: () => props.onShowModal()
+                //         }
+                //     ],
+                //     { cancelable: false }
+                // );
             }
             return true;
         }
@@ -88,7 +108,8 @@ function RenderCampsite(props) {
                 duration={2000}
                 delay={1000}
                 ref={view}
-                {...panResponder.panHandlers}>
+                {...panResponder.panHandlers}
+            >
                 <Card
                     featuredTitle={campsite.name}
                     image={{uri: baseUrl + campsite.image}}>
